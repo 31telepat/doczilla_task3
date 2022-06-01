@@ -2,6 +2,7 @@ package com.doczilla.servlet;
 
 import com.doczilla.dao.DaoStudent;
 import com.doczilla.model.Student;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -81,8 +84,16 @@ public class MainPageServlet extends HttpServlet {
             throws SQLException, IOException {
         final String name = request.getParameter("name");
         final String surname = request.getParameter("surname");
+        final String patronymic = request.getParameter("patronymic");
 
-        Student newStudent = new Student(name, surname);
+        final String StringDateOfBorn = request.getParameter("dateOfBorn");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        final LocalDate dateOfBorn = LocalDate.parse(StringDateOfBorn, formatter);
+
+        final String nameOfGroup = request.getParameter("nameOfGroup");
+
+
+        Student newStudent = new Student(name, surname, patronymic, dateOfBorn, nameOfGroup);
         daoStudent.save(newStudent);
         response.sendRedirect("/");
     }
@@ -106,8 +117,16 @@ public class MainPageServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         final String name = request.getParameter("name");
         final String surname = request.getParameter("surname");
+        final String patronymic = request.getParameter("patronymic");
 
-        Student student = new Student(id, name, surname);
+        final String StringDateOfBorn = request.getParameter("dateOfBorn");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        final LocalDate dateOfBorn = LocalDate.parse(StringDateOfBorn, formatter);
+
+        final String nameOfGroup = request.getParameter("nameOfGroup");
+
+
+        Student student = new Student(id, name, surname, patronymic, dateOfBorn, nameOfGroup);
         daoStudent.updateStudent(student);
         response.sendRedirect("/");
     }

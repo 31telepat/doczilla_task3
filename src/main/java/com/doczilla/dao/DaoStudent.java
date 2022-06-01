@@ -3,6 +3,7 @@ package com.doczilla.dao;
 import com.doczilla.model.Student;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,9 @@ public class DaoStudent {
                 student.setId(resultSet.getInt("id"));
                 student.setName(resultSet.getString("name"));
                 student.setSurname(resultSet.getString("surname"));
+                student.setPatronymic(resultSet.getString("patronymic"));
+                student.setDateOfBorn(resultSet.getObject("dateOfBorn", LocalDate.class));
+                student.setNameOfGroup(resultSet.getString("nameOfGroup"));
 
                 result.add(student);
 
@@ -60,15 +64,18 @@ public class DaoStudent {
     }
 
     public int save(Student student){
-        String sqlSave = "INSERT INTO students (name,surname) VALUES (?,?)";
+        String sqlSave = "INSERT INTO students (name, surname, patronymic, dateOfBorn, nameOfGroup) VALUES (?,?,?,?,?)";
 
         Connection connection = null;
         int status=0;
         try{
             connection = DaoStudent.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlSave);
-            statement.setString(1,student.getName());
-            statement.setString(2,student.getSurname());
+            statement.setString(1, student.getName());
+            statement.setString(2, student.getSurname());
+            statement.setString(3, student.getPatronymic());
+            statement.setObject(4, student.getDateOfBorn());
+            statement.setString(5, student.getNameOfGroup());
 
             status = statement.executeUpdate();
 
@@ -121,8 +128,11 @@ public class DaoStudent {
                 int idToUpdate = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String surname = resultSet.getString("surname");
+                String patronymic = resultSet.getString("patronymic");
+                LocalDate dateOfBorn = resultSet.getObject("dateOfBorn", LocalDate.class);
+                String nameOfGroup = resultSet.getString("nameOfGroup");
 
-                student = new Student(idToUpdate, name, surname);
+                student = new Student(idToUpdate, name, surname, patronymic, dateOfBorn, nameOfGroup);
             }
 
             resultSet.close();
@@ -137,7 +147,7 @@ public class DaoStudent {
     }
 
     public int updateStudent(Student student) throws SQLException {
-        String sqlUpdate = "UPDATE students SET name = ?, surname = ? WHERE id = ?";
+        String sqlUpdate = "UPDATE students SET name = ?, surname = ?, patronymic = ?, dateOfBorn = ?, nameOfGroup = ? WHERE id = ?";
 
         Connection connection = null;
         int status=0;
@@ -146,7 +156,10 @@ public class DaoStudent {
             PreparedStatement statement = connection.prepareStatement(sqlUpdate);
             statement.setString(1, student.getName());
             statement.setString(2, student.getSurname());
-            statement.setInt(3, student.getId());
+            statement.setString(3, student.getPatronymic());
+            statement.setObject(4, student.getDateOfBorn());
+            statement.setString(5, student.getNameOfGroup());
+            statement.setInt(6, student.getId());
 
             status = statement.executeUpdate();
             statement.close();

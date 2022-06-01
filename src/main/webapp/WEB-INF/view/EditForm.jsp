@@ -24,6 +24,25 @@
                 </td>
             </tr>
             <tr>
+                <th>Patronymic</th>
+                <td>
+                    <input type="text" name="patronymic" value="<c:out value='${student.patronymic}'/>"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Date of born</th>
+                <td>
+                    <input type="date" name="dateOfBorn" value="<c:out value='${student.dateOfBorn}'/>"/>
+                </td>
+            </tr>
+            <tr>
+                <th>group</th>
+                <td>
+                    <input type="text" name="nameOfGroup" value="<c:out value='${student.nameOfGroup}'/>"/>
+                </td>
+            </tr>
+
+            <tr>
                 <td>
                     <button type="submit">Save</button>
                 </td>
