@@ -40,13 +40,13 @@
 <%--            <th>group</th>--%>
         </tr>
 
-        <c:forEach var="studentList" items="${requestScope.studentList}">
+        <c:forEach var="student" items="${requestScope.studentList}">
             <tr>
-                <td><c:out value="${studentList.id}"/></td>
-                <td><c:out value="${studentList.name}"/></td>
-                <td><c:out value="${studentList.surname}"/></td>
-                <td><a href="delete?id=<c:out value='${studentList.id}' />">delete</a></td>
-                <td><a href="edit?id=<c:out value='${studentList.id}' />">Edit</a></td>
+                <td><c:out value="${student.id}"/></td>
+                <td><c:out value="${student.name}"/></td>
+                <td><c:out value="${student.surname}"/></td>
+                <td><a href="delete?id=<c:out value='${student.id}' />">delete</a></td>
+                <td><a href="edit?id=<c:out value='${student.id}' />">edit</a></td>
 
             <%--                <td><c:out value="${studentList.patronymic}"/></td>--%>
 <%--                <td><c:out value="${studentList.dateOfBorn}"/></td>--%>

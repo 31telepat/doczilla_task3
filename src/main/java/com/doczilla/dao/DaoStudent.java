@@ -30,13 +30,13 @@ public class DaoStudent {
     }
 
     public List<Student> findAllStudents() {
-        String sqlAllstudents = "SELECT * FROM students";
+        String sqlAllStudents = "SELECT * FROM students ORDER BY id ASC";
         List<Student> result = new ArrayList<>();
 
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(sqlAllstudents);
+            PreparedStatement statement = connection.prepareStatement(sqlAllStudents);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Student student = new Student();
@@ -118,15 +118,15 @@ public class DaoStudent {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
+                int idToUpdate = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String surname = resultSet.getString("surname");
 
-                student = new Student(name, surname);
+                student = new Student(idToUpdate, name, surname);
             }
 
             resultSet.close();
             statement.close();
-
         }catch (Exception e){
             e.printStackTrace();
         } finally {
@@ -139,19 +139,17 @@ public class DaoStudent {
     public int updateStudent(Student student) throws SQLException {
         String sqlUpdate = "UPDATE students SET name = ?, surname = ? WHERE id = ?";
 
-        int status=0;
         Connection connection = null;
+        int status=0;
         try {
             connection = DaoStudent.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlUpdate);
-
             statement.setString(1, student.getName());
             statement.setString(2, student.getSurname());
             statement.setInt(3, student.getId());
 
             status = statement.executeUpdate();
             statement.close();
-
         }catch (Exception e){
             e.printStackTrace();
         } finally {

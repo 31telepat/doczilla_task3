@@ -14,6 +14,12 @@ public class Student implements Serializable {
         this.id = id;
     }
 
+    public Student(int id, String name, String surname) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+    }
+
     public Student(String name, String surname) {
         this.name = name;
         this.surname = surname;

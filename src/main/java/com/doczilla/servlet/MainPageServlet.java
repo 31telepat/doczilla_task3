@@ -96,7 +96,6 @@ public class MainPageServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
-
         } catch (ServletException e) {
             e.printStackTrace();
         }
@@ -105,10 +104,10 @@ public class MainPageServlet extends HttpServlet {
     private void updateStudent(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
+        final String name = request.getParameter("name");
+        final String surname = request.getParameter("surname");
 
-        Student student = new Student(name, surname);
+        Student student = new Student(id, name, surname);
         daoStudent.updateStudent(student);
         response.sendRedirect("/");
     }
